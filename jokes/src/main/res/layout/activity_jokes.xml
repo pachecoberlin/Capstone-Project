@@ -4,4 +4,4 @@
     android:name="de.pacheco.capstone.jokes.JokesActivityFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:layout="@layout/fragment_main" />
+    tools:layout="@layout/fragment_ads" />

@@ -15,7 +15,7 @@ public class JokesActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_main, container, false);
+        View root = inflater.inflate(R.layout.fragment_ads, container, false);
         AdView mAdView = root.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
                 .build();
