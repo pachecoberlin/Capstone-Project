@@ -9,28 +9,22 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,12 +56,13 @@ public class TellJokeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tell_joke);
+        enableUpNavigation();
         mUsername = ANONYMOUS;
         databaseReference = FirebaseFirestore.getInstance().collection(JOKES);
         firebaseAuth = FirebaseAuth.getInstance();
         ListView mMessageListView = findViewById(R.id.messageListView);
-        mMessageEditText = (EditText) findViewById(R.id.messageEditText);
-        mSendButton = (Button) findViewById(R.id.sendButton);
+        mMessageEditText = findViewById(R.id.messageEditText);
+        mSendButton = findViewById(R.id.sendButton);
         List<Joke> jokes = new ArrayList<>();
         mMessageAdapter = new JokeAdapter(this, R.layout.item_joke, jokes);
         mMessageListView.setAdapter(mMessageAdapter);
@@ -75,6 +70,17 @@ public class TellJokeActivity extends AppCompatActivity {
         setButtonListener();
         setAuthenticationListener();
     }
+
+    private void enableUpNavigation() {
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        toolbar.setTitle(getTitle());
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
 
     private void setTextListener() {
         // Enable Send button when there's text to send
@@ -102,56 +108,40 @@ public class TellJokeActivity extends AppCompatActivity {
 
     private void setButtonListener() {
         // Send button writes a joke to db and clears the EditText
-        mSendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Map<String, Object> joke = new HashMap<>();
-                joke.put("name", mUsername);
-                joke.put("joke", mMessageEditText.getText().toString());
-                databaseReference.add(joke).addOnSuccessListener(
-                        new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Log.d(TAG,
-                                        "Joke added with ID: " + documentReference.getId());
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Error adding document", e);
-                            }
-                        });
-                // Clear input box
-                mMessageEditText.setText("");
-            }
+        mSendButton.setOnClickListener(view -> {
+            Map<String, Object> joke = new HashMap<>();
+            joke.put("name", mUsername);
+            joke.put("joke", mMessageEditText.getText().toString());
+            databaseReference.add(joke).addOnSuccessListener(
+                    documentReference -> Log.d(TAG,
+                            "Joke added with ID: " + documentReference.getId()))
+                    .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
+            // Clear input box
+            mMessageEditText.setText("");
         });
     }
 
     private void setAuthenticationListener() {
-        authStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    onSignedInInitialize(user.getDisplayName());
-                } else {
-                    onSignedOutCleanUp();
-                    List<AuthUI.IdpConfig> providers = Collections.singletonList(
-                            new AuthUI.IdpConfig.EmailBuilder().build()
+        authStateListener = firebaseAuth -> {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            if (user != null) {
+                onSignedInInitialize(user.getDisplayName());
+            } else {
+                onSignedOutCleanUp();
+                List<AuthUI.IdpConfig> providers = Collections.singletonList(
+                        new AuthUI.IdpConfig.EmailBuilder().build()
 //                           , new AuthUI.IdpConfig.PhoneBuilder().build(),
 //                            new AuthUI.IdpConfig.GoogleBuilder().build(),
 //                            new AuthUI.IdpConfig.FacebookBuilder().build(),
 //                            new AuthUI.IdpConfig.TwitterBuilder().build()
-                    );
-                    startActivityForResult(
-                            AuthUI.getInstance()
-                                    .createSignInIntentBuilder()
-                                    .setIsSmartLockEnabled(false)
-                                    .setAvailableProviders(providers)
-                                    .build(),
-                            RC_SIGN_IN);
-                }
+                );
+                startActivityForResult(
+                        AuthUI.getInstance()
+                                .createSignInIntentBuilder()
+                                .setIsSmartLockEnabled(false)
+                                .setAvailableProviders(providers)
+                                .build(),
+                        RC_SIGN_IN);
             }
         };
     }
@@ -171,22 +161,18 @@ public class TellJokeActivity extends AppCompatActivity {
     private void attachDatabaseReadListener() {
         if (registration == null) {
             registration = databaseReference.addSnapshotListener(
-                    new EventListener<QuerySnapshot>() {
-                        @Override
-                        public void onEvent(@Nullable QuerySnapshot snapshots,
-                                            @Nullable FirebaseFirestoreException e) {
-                            if (e != null) {
-                                Log.w(TAG, "listen:error", e);
-                                return;
-                            }
-                            if (snapshots == null) {
-                                return;
-                            }
-                            for (DocumentChange dc : snapshots.getDocumentChanges()) {
-                                if (dc.getType() == DocumentChange.Type.ADDED) {
-                                    Joke joke = dc.getDocument().toObject(Joke.class);
-                                    mMessageAdapter.add(joke);
-                                }
+                    (snapshots, e) -> {
+                        if (e != null) {
+                            Log.w(TAG, "listen:error", e);
+                            return;
+                        }
+                        if (snapshots == null) {
+                            return;
+                        }
+                        for (DocumentChange dc : snapshots.getDocumentChanges()) {
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
+                                Joke joke = dc.getDocument().toObject(Joke.class);
+                                mMessageAdapter.add(joke);
                             }
                         }
                     });
@@ -227,8 +213,13 @@ public class TellJokeActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.sign_out_menu) {
+        int id = item.getItemId();
+        if (id == R.id.sign_out_menu) {
             AuthUI.getInstance().signOut(this);
+            return true;
+        } else if (id == android.R.id.home) {
+//            NavUtils.navigateUpTo(this, new Intent(this, RecipeListActivity.class));
+            NavUtils.navigateUpFromSameTask(this);
             return true;
         }
         return super.onOptionsItemSelected(item);

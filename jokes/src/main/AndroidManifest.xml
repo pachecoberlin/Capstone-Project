@@ -22,7 +22,8 @@
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
 <!--            </intent-filter>-->
         </activity>
-        <activity android:name="de.pacheco.capstone.jokes.TellJokeActivity">
+        <activity android:name="de.pacheco.capstone.jokes.TellJokeActivity"
+            android:parentActivityName=".JokesActivity">
 
         </activity>
         <meta-data
