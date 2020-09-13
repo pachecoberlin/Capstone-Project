@@ -1,1 +1,2 @@
+include ':capstone'
 include ':jokes'
