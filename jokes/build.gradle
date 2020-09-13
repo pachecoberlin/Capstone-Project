@@ -11,11 +11,24 @@ android {
         versionName "1.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        //TODO remove
+        aaptOptions {
+            cruncherEnabled = false
+        }
+        dexOptions {
+            preDexLibraries = true
+        }
+        resConfigs("en", "mdpi")
+//            resConfigs("en", "xxhdpi")
+        //remove until here
     }
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //TODO remove and uncomment
+            shrinkResources false
+            //proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),'proguard-rules.pro'
         }
     }
     packagingOptions {
