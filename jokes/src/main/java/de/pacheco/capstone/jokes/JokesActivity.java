@@ -1,5 +1,6 @@
 package de.pacheco.capstone.jokes;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -19,7 +20,6 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.udacity.gradle.builditbigger.R;
 
 import java.util.List;
 import java.util.Map;
@@ -54,6 +54,8 @@ public class JokesActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             //TODO login
+            Intent intent = new Intent(this,TellJokeActivity.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
