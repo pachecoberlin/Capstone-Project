@@ -20,7 +20,7 @@ android {
             preDexLibraries = true
         }
         resConfigs("en", "mdpi")
-//            resConfigs("en", "xxhdpi")
+//      resConfigs("en", "xxhdpi")
         //remove until here
     }
 
@@ -32,10 +32,13 @@ android {
             //proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+    }
 }
-
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation project(":jokes")
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.material:material:1.2.1'
