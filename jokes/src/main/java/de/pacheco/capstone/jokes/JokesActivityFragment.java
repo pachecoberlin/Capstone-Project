@@ -1,5 +1,6 @@
 package de.pacheco.capstone.jokes;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,11 +22,10 @@ import java.util.Map;
 import java.util.Random;
 
 public class JokesActivityFragment extends Fragment {
-
     private static final String TAG = JokesActivity.class.getSimpleName();
-    public static final String JOKE = "joke";
-    public static final String NAME = "name";
-    public static final String JOKES = "jokes";
+    private static final String JOKE = "joke";
+    private static final String NAME = "name";
+    private static final String JOKES = "jokes";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,8 +35,20 @@ public class JokesActivityFragment extends Fragment {
         AdRequest adRequest = new AdRequest.Builder()
                 .build();
         mAdView.loadAd(adRequest);
-        root.findViewById(R.id.joker).setOnClickListener(tellJoke());
+        FragmentActivity activity = getActivity();
+        if (activity == null) {
+            return root;
+        }
+        root.findViewById(R.id.btn_joker).setOnClickListener(tellJoke());
+        root.findViewById(R.id.btn_create_joke).setOnClickListener(login());
         return root;
+    }
+
+    private View.OnClickListener login() {
+        return v -> {
+            Intent intent = new Intent(getActivity(), TellJokeActivity.class);
+            startActivity(intent);
+        };
     }
 
     /**
@@ -44,11 +56,8 @@ public class JokesActivityFragment extends Fragment {
      */
     public View.OnClickListener tellJoke() {
         return v -> {
-            FragmentActivity activity = getActivity();
-            if (activity == null) {
-                return;
-            }
-            FirebaseApp.initializeApp(activity);
+            //noinspection ConstantConditions
+            FirebaseApp.initializeApp(getActivity());
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             db.collection(JOKES)
                     .get()
@@ -65,7 +74,7 @@ public class JokesActivityFragment extends Fragment {
                             String username = String.valueOf(joke.get(NAME));
                             String toastText = username + getString(
                                     R.string.says) + jokeText;
-                            Toast.makeText(activity, toastText,
+                            Toast.makeText(getActivity(), toastText,
                                     Toast.LENGTH_LONG).show();
                         } else {
                             Log.w(TAG, "Error getting Jokes.", task.getException());
