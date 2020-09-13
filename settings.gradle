@@ -1,3 +1,2 @@
 include ':jokeShower'
-include ':javaJokeLib'
-include ':app', ':backend'
+include ':jokes'
