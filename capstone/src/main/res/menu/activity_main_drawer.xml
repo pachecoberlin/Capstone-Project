@@ -21,5 +21,9 @@
             android:id="@+id/nav_jokes"
             android:icon="@android:drawable/sym_action_chat"
             android:title="@string/menu_jokes" />
+        <item
+            android:id="@+id/nav_baking"
+            android:icon="@drawable/ic_food"
+            android:title="@string/menu_baking" />
     </group>
 </menu>

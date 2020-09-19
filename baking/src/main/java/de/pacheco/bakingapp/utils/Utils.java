@@ -15,6 +15,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Utils {
 
     public static int calculateNoOfColumns(Context context) {
+        if (context==null){
+            return 2;
+        }
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         int scalingFactor = 200;

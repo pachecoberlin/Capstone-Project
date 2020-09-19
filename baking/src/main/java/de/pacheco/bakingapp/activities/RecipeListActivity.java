@@ -7,6 +7,7 @@ import de.pacheco.bakingapp.model.RecipesViewModel;
 import de.pacheco.bakingapp.utils.SimpleIdlingResource;
 import de.pacheco.bakingapp.utils.Utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -21,9 +22,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.IdlingResource;
@@ -38,7 +40,7 @@ import java.util.List;
  * Props for image to:
  * <div>Icon made from <a href="http://www.onlinewebfonts.com/icon">Icon Fonts</a> is licensed by CC BY 3.0</div>
  */
-public class RecipeListActivity extends AppCompatActivity {
+public class RecipeListActivity extends Fragment {
 
     public static List<Recipe> recipes = Collections.emptyList();
     //TODO @Reviewer how am i supposed to create the IdlingResource in my Test before the
@@ -47,35 +49,47 @@ public class RecipeListActivity extends AppCompatActivity {
     private SimpleIdlingResource idlingResource = new SimpleIdlingResource();
     private RecipeRecyclerViewAdapter recipeRecyclerViewAdapter;
     private BakingTimeWidget receiver;
+    private Activity context;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipe_list);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        View recyclerView = findViewById(R.id.recipe_list);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.activity_recipe_list, container, false);
+        View recyclerView = root.findViewById(R.id.recipe_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
         setupViewModel();
-        Toast.makeText(this, "A Picture is taking from <div>Icon made from <a href=\"http://www" +
+        Toast.makeText(getContext(),
+                "A Picture is taking from <div>Icon made from <a href=\"http://www" +
                         ".onlinewebfonts" +
                         ".com/icon\">Icon Fonts</a> is licensed by CC BY 3.0</div>",
                 Toast.LENGTH_LONG).show();
         receiver = new BakingTimeWidget();
-        registerReceiver(receiver, new IntentFilter("my.action.string"));
+        context = getActivity();
+        if (context != null) {
+            context.registerReceiver(receiver, new IntentFilter("my.action.string"));
+        }
+        return root;
     }
 
     @Override
-    protected void onDestroy() {
-        unregisterReceiver(receiver);
+    public void onDestroy() {
+        if (context != null) {
+            context.unregisterReceiver(receiver);
+        }
         super.onDestroy();
     }
-
+Irgendwo hier so es werden keine Rezepte angezeigt
     private void setupViewModel() {
-        RecipesViewModel recipesViewModel = new ViewModelProvider(this).get(RecipesViewModel.class);
-        if (idlingResource != null) idlingResource.setIdleState(false);
-        recipesViewModel.getRecipes().observe(this, list -> {
+        if (context == null) {
+            return;
+        }
+        RecipesViewModel recipesViewModel = new ViewModelProvider(
+                (ViewModelStoreOwner) context).get(RecipesViewModel.class);
+        if (idlingResource != null) {
+            idlingResource.setIdleState(false);
+        }
+        recipesViewModel.getRecipes().observe((LifecycleOwner) context, list -> {
             recipes = list;
             recipeRecyclerViewAdapter.setRecipes(recipes);
             recipeRecyclerViewAdapter.notifyDataSetChanged();
@@ -84,7 +98,8 @@ public class RecipeListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setLayoutManager(new GridLayoutManager(this, Utils.calculateNoOfColumns(this),
+        recyclerView.setLayoutManager(new GridLayoutManager(context,
+                Utils.calculateNoOfColumns(context),
                 GridLayoutManager.VERTICAL, false));
         recipeRecyclerViewAdapter = new RecipeRecyclerViewAdapter(recipes, this);
         recyclerView.setAdapter(recipeRecyclerViewAdapter);
