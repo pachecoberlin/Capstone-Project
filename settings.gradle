@@ -1,2 +1,3 @@
+include ':baking'
 include ':capstone'
 include ':jokes'

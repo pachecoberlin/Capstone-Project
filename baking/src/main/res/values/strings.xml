@@ -1,0 +1,21 @@
+<resources>
+    <string name="recipe_name">RECEIPE NAME</string>
+    <string name="app_name">Baking Time</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title">Title</string>
+    <string name="subtitle">Subtitle</string>
+    <string name="servings">Nice for %1$d people</string>
+    <string name="recipe">Recipe</string>
+    <string name="image_of_food">Image of Food</string>
+    <string name="appwidget_text">Choose a recipe</string>
+    <string name="add_widget">Add widget</string>
+    <string name="next_recipe">Next Recipe</string>
+    <string name="previous_recipe">Previous Recipe</string>
+</resources>
