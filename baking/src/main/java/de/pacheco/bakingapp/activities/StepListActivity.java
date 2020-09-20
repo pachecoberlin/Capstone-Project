@@ -64,7 +64,7 @@ public class StepListActivity extends AppCompatActivity {
         SharedPreferences sp = getSharedPreferences(getString(R.string.recipe), 0);
         if (recipe == null) {
             int recipeNumber = sp.getInt(StepDetailFragment.RECIPE_ID, 1);
-            recipe = RecipeListActivity.recipes.get(recipeNumber - 1);
+            recipe = RecipeListFragment.recipes.get(recipeNumber - 1);
         }
         if (recipe == null) {
             return;
@@ -121,7 +121,7 @@ public class StepListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            NavUtils.navigateUpTo(this, new Intent(this, RecipeListActivity.class));
+            NavUtils.navigateUpTo(this, new Intent(this, RecipeListFragment.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

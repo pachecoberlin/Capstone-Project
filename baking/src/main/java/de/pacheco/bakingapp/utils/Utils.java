@@ -1,6 +1,6 @@
 package de.pacheco.bakingapp.utils;
 
-import de.pacheco.bakingapp.activities.RecipeListActivity;
+import de.pacheco.bakingapp.activities.RecipeListFragment;
 import de.pacheco.bakingapp.model.Ingredient;
 import de.pacheco.bakingapp.model.Recipe;
 import de.pacheco.bakingapp.model.Step;
@@ -94,30 +94,30 @@ public class Utils {
     }
 
     public static Recipe getNextRecipe(Recipe recipe) {
-        if (RecipeListActivity.recipes.isEmpty()) {
+        if (RecipeListFragment.recipes.isEmpty()) {
             return recipe;
         }
-        for (Iterator<Recipe> it = RecipeListActivity.recipes.iterator(); it.hasNext(); ) {
+        for (Iterator<Recipe> it = RecipeListFragment.recipes.iterator(); it.hasNext(); ) {
             Recipe actualRecipe = it.next();
             if (actualRecipe.id != recipe.id) {
                 continue;
             }
-            return it.hasNext() ? it.next() : RecipeListActivity.recipes.get(0);
+            return it.hasNext() ? it.next() : RecipeListFragment.recipes.get(0);
         }
         return recipe;
     }
 
     public static Recipe getPreviousRecipe(Recipe recipe) {
-        if (RecipeListActivity.recipes.isEmpty()) {
+        if (RecipeListFragment.recipes.isEmpty()) {
             return recipe;
         }
-        for (Recipe actualRecipe : RecipeListActivity.recipes) {
+        for (Recipe actualRecipe : RecipeListFragment.recipes) {
             if (actualRecipe.id != recipe.id) {
                 continue;
             }
-            int indexOf = RecipeListActivity.recipes.indexOf(actualRecipe);
-            return indexOf - 1 < 0 ? RecipeListActivity.recipes.get(
-                    RecipeListActivity.recipes.size() - 1) : RecipeListActivity.recipes.get(
+            int indexOf = RecipeListFragment.recipes.indexOf(actualRecipe);
+            return indexOf - 1 < 0 ? RecipeListFragment.recipes.get(
+                    RecipeListFragment.recipes.size() - 1) : RecipeListFragment.recipes.get(
                     indexOf - 1);
         }
         return recipe;

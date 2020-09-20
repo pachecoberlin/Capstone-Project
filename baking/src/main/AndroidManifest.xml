@@ -25,18 +25,14 @@
                 android:resource="@xml/baking_time_widget_info" />
         </receiver>
 
-<!--        <activity-->
-<!--            android:name=".activities.RecipeListActivity"-->
-<!--            android:label="@string/app_name"-->
-<!--            android:theme="@style/AppTheme.NoActionBar"/>-->
         <activity
             android:name=".activities.StepListActivity"
             android:label="@string/recipe_name"
-            android:parentActivityName=".activities.RecipeListActivity"
+            android:parentActivityName=".activities.RecipeListFragment"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.pacheco.bakingapp.activities.RecipeListActivity" />
+                android:value="de.pacheco.bakingapp.activities.RecipeListFragment" />
         </activity>
         <activity
             android:name=".activities.StepDetailActivity"

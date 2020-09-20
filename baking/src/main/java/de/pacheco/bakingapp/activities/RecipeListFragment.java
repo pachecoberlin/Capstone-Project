@@ -40,7 +40,7 @@ import java.util.List;
  * Props for image to:
  * <div>Icon made from <a href="http://www.onlinewebfonts.com/icon">Icon Fonts</a> is licensed by CC BY 3.0</div>
  */
-public class RecipeListActivity extends Fragment {
+public class RecipeListFragment extends Fragment {
 
     public static List<Recipe> recipes = Collections.emptyList();
     //TODO @Reviewer how am i supposed to create the IdlingResource in my Test before the
@@ -55,7 +55,7 @@ public class RecipeListActivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setContext();
-        View root = inflater.inflate(R.layout.activity_recipe_list, container, false);
+        View root = inflater.inflate(R.layout.fragment_recipe_list, container, false);
         View recyclerView = root.findViewById(R.id.recipe_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
@@ -127,7 +127,7 @@ public class RecipeListActivity extends Fragment {
 
     public static class RecipeRecyclerViewAdapter
             extends RecyclerView.Adapter<RecipeRecyclerViewAdapter.ViewHolder> {
-        private final RecipeListActivity recipeListActivity;
+        private final RecipeListFragment recipeListFragment;
         private final View.OnClickListener mOnClickListener = view -> {
             Context context = view.getContext();
             Intent intent = new Intent(context, StepListActivity.class);
@@ -141,9 +141,9 @@ public class RecipeListActivity extends Fragment {
         };
         private List<Recipe> mValues;
 
-        RecipeRecyclerViewAdapter(List<Recipe> items, RecipeListActivity recipeListActivity) {
+        RecipeRecyclerViewAdapter(List<Recipe> items, RecipeListFragment recipeListFragment) {
             mValues = items;
-            this.recipeListActivity = recipeListActivity;
+            this.recipeListFragment = recipeListFragment;
         }
 
         @NonNull
@@ -161,7 +161,7 @@ public class RecipeListActivity extends Fragment {
             Picasso.get().load(url).placeholder(R.drawable.ic_food).error(R.drawable.ic_food).into(
                     holder.recipeImage);
             holder.recipeTitle.setText(recipe.name);
-            holder.recipeSubtitle.setText(recipeListActivity.getString(R.string.servings,
+            holder.recipeSubtitle.setText(recipeListFragment.getString(R.string.servings,
                     recipe.servings));
             holder.itemView.setTag(recipe);
             holder.itemView.setOnClickListener(mOnClickListener);

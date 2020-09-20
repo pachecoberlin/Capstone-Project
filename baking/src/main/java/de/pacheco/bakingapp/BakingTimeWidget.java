@@ -1,6 +1,6 @@
 package de.pacheco.bakingapp;
 
-import de.pacheco.bakingapp.activities.RecipeListActivity;
+import de.pacheco.bakingapp.activities.RecipeListFragment;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -21,7 +21,7 @@ public class BakingTimeWidget extends AppWidgetProvider {
         text = text == null ? widgetText.toString() : text;
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_time_widget);
         views.setTextViewText(R.id.appwidget_text, text);
-        Intent configIntent = new Intent(context, RecipeListActivity.class);
+        Intent configIntent = new Intent(context, RecipeListFragment.class);
         configIntent.putExtra("widgetId", appWidgetId);
         PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, 0);
         views.setOnClickPendingIntent(R.id.appwidget_text, configPendingIntent);

@@ -25,9 +25,9 @@
 
     <fragment
         android:id="@+id/nav_baking"
-        android:name="de.pacheco.bakingapp.activities.RecipeListActivity"
+        android:name="de.pacheco.bakingapp.activities.RecipeListFragment"
         android:label="@string/menu_baking"
-        tools:layout="@layout/activity_recipe_list" />
+        tools:layout="@layout/fragment_recipe_list" />
 
     <fragment
         android:id="@+id/nav_sandwich"
