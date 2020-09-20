@@ -25,5 +25,9 @@
             android:id="@+id/nav_baking"
             android:icon="@drawable/ic_food"
             android:title="@string/menu_baking" />
+        <item
+            android:id="@+id/nav_sandwich"
+            android:icon="@drawable/ic_food"
+            android:title="@string/menu_sandwich" />
     </group>
 </menu>
