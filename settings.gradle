@@ -1,3 +1,4 @@
+include ':movies'
 include ':sandwichclub'
 include ':baking'
 include ':capstone'
