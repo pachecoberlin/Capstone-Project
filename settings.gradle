@@ -1,3 +1,4 @@
+include ':sandwichclub'
 include ':baking'
 include ':capstone'
 include ':jokes'
