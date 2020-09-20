@@ -12,4 +12,13 @@
     <string name="menu_jokes">Jokes</string>
     <string name="menu_baking">Baking recipes</string>
     <string name="menu_sandwich">Sandwich Club</string>
+    <string name="hello_text">
+        \nHello my name is Pacheco.\n\n
+        This App is a collection of some smaller Apps i have created
+        while getting my app creation skills up to date. I love to make great Apps with a nice
+        User Experience. As of september 2020 this app is made with state of the art
+        technologies. But as you know, you never stop learning.\n\n
+        Checkout the source code if you like:\n
+        <font size="12"><a href="https://github.com/pachecoberlin/Capstone-Project">https
+            ://github.com/pachecoberlin/Capstone-Project</a></font></string>
 </resources>
