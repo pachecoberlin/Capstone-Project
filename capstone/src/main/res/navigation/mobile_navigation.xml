@@ -18,10 +18,10 @@
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="de.pacheco.capstone.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_movies"
+        android:name="de.pacheco.popularMovies.MoviesFragment"
+        android:label="@string/menu_movies"
+        tools:layout="@layout/activity_main" />
 
     <fragment
         android:id="@+id/nav_jokes"

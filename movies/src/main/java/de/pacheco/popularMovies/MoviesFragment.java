@@ -9,9 +9,7 @@ import de.pacheco.popularMovies.util.MoviesUtil;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -134,29 +132,6 @@ public class MoviesFragment extends Fragment {
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int itemId = item.getItemId();
-        if (movies == null || itemId != R.id.sort_by_popularity && itemId != R.id.sort_by_rating) {
-            return false;
-        }
-        sortBy(itemId);
-        moviePosterAdapter.notifyDataSetChanged();
-        return true;
-    }
-
-    private void sortBy(final int itemId) {
-        Collections.sort(movies, (movie1, movie2) -> {
-            switch (itemId) {
-                case R.id.sort_by_popularity:
-                    return Float.compare(movie1.popularity, movie2.popularity);
-                case R.id.sort_by_rating:
-                    return Float.compare(movie1.rating, movie2.rating);
-            }
-            Log.d(TAG, "Not supported operation id: " + itemId);
-            return 0;
-        });
-    }
 
     public AdapterView.OnItemSelectedListener getSpinnerListener() {
         return new AdapterView.OnItemSelectedListener() {

@@ -12,11 +12,11 @@
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/menu_gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
 
+        <item
+            android:id="@+id/nav_movies"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/menu_movies" />
         <item
             android:id="@+id/nav_jokes"
             android:icon="@android:drawable/sym_action_chat"
