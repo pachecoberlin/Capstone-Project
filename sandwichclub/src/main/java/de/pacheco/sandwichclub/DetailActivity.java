@@ -22,20 +22,18 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
         ImageView ingredientsIv = findViewById(R.id.image_iv);
-
         Intent intent = getIntent();
         if (intent == null) {
             closeOnError();
         }
-        @SuppressWarnings("ConstantConditions") int position = intent.getIntExtra(EXTRA_POSITION, DEFAULT_POSITION);
+        @SuppressWarnings("ConstantConditions") int position = intent.getIntExtra(EXTRA_POSITION,
+                DEFAULT_POSITION);
         if (position == DEFAULT_POSITION) {
             // EXTRA_POSITION not found in intent
             closeOnError();
             return;
         }
-
         String[] sandwiches = getResources().getStringArray(R.array.sandwich_details);
         String json = sandwiches[position];
         Sandwich sandwich = JsonUtils.parseSandwichJson(json);
@@ -44,12 +42,10 @@ public class DetailActivity extends AppCompatActivity {
             closeOnError();
             return;
         }
-
         populateUI(sandwich);
-        Picasso.with(this)
+        Picasso.get()
                 .load(sandwich.getImage())
                 .into(ingredientsIv);
-
         setTitle(sandwich.getMainName());
     }
 
