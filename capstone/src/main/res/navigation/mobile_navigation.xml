@@ -12,12 +12,6 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="de.pacheco.capstone.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
-    <fragment
         android:id="@+id/nav_movies"
         android:name="de.pacheco.popularMovies.MoviesFragment"
         android:label="@string/menu_movies"
