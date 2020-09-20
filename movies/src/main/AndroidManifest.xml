@@ -14,15 +14,7 @@
         <activity
             android:name="de.pacheco.popularMovies.MovieDetailsActivity"
             android:label="@string/details"
-            android:parentActivityName=".MainActivity"></activity>
-        <activity
-            android:name="de.pacheco.popularMovies.MainActivity"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:parentActivityName=".MoviesFragment" />
     </application>
 
 </manifest>

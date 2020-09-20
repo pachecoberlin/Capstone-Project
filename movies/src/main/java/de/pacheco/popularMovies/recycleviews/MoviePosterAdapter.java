@@ -1,6 +1,5 @@
 package de.pacheco.popularMovies.recycleviews;
 
-import de.pacheco.popularMovies.MainActivity;
 import de.pacheco.popularMovies.R;
 import de.pacheco.popularMovies.model.Movie;
 
@@ -19,7 +18,7 @@ public class MoviePosterAdapter extends RecyclerView.Adapter<MoviePosterViewHold
     private final Activity activity;
     private List<Movie> movies;
 
-    public MoviePosterAdapter(MainActivity mainActivity) {
+    public MoviePosterAdapter(Activity mainActivity) {
         this.activity = mainActivity;
     }
 

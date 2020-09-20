@@ -10,14 +10,15 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,9 +26,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.Collections;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MoviesFragment extends Fragment {
     public static final String BUNDLE_SELECTION = "Selection";
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = MoviesFragment.class.getSimpleName();
     private static final String BUNDLE_LAYOUT = "BUNDLE_LAYOUT";
     private MoviePosterAdapter moviePosterAdapter;
     private List<Movie> movies = Collections.emptyList();
@@ -38,21 +39,20 @@ public class MainActivity extends AppCompatActivity {
     private GridLayoutManager layoutManager;
     private String oldSelection;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        ActivityMainBinding binding = ActivityMainBinding.inflate(inflater);
         binding.spinnerSortBy.setOnItemSelectedListener(getSpinnerListener());
         binding.rvMovieOverview.setHasFixedSize(true);
-        layoutManager = new GridLayoutManager(this, calculateNoOfColumns(),
+        layoutManager = new GridLayoutManager(getContext(), calculateNoOfColumns(),
                 RecyclerView.VERTICAL, false);
         binding.rvMovieOverview.setLayoutManager(layoutManager);
-        moviePosterAdapter = new MoviePosterAdapter(this);
+        moviePosterAdapter = new MoviePosterAdapter(getActivity());
         binding.rvMovieOverview.setAdapter(moviePosterAdapter);
-        View view = binding.getRoot();
-        setContentView(view);
         setupViewModel();
         //data is set within spinner listener, which is called after created
+        return binding.getRoot();
     }
 
     public int calculateNoOfColumns() {
@@ -68,23 +68,24 @@ public class MainActivity extends AppCompatActivity {
     /**
      * If the activity is re-created, it receives the same ViewModelProvider instance that was created by the first activity.
      */
+    @SuppressWarnings("ConstantConditions")
     private void setupViewModel() {
         MoviesViewModel moviesViewModel = new ViewModelProvider(this).get(MoviesViewModel.class);
-        moviesViewModel.getFavouriteMovies().observe(this,
+        moviesViewModel.getFavouriteMovies().observe(getActivity(),
                 list -> {
                     favorites = list;
                     if (selection.equals(MoviesUtil.FAVOURITES)) {
                         moviePosterAdapter.notifyDataSetChanged();
                     }
                 });
-        moviesViewModel.getPopularMovies().observe(this,
+        moviesViewModel.getPopularMovies().observe(getActivity(),
                 list -> {
                     populars = list;
                     if (selection.equals(MoviesUtil.POPULAR)) {
                         moviePosterAdapter.notifyDataSetChanged();
                     }
                 });
-        moviesViewModel.getTopRatedMovies().observe(this,
+        moviesViewModel.getTopRatedMovies().observe(getActivity(),
                 list -> {
                     topRated = list;
                     if (selection.equals(MoviesUtil.TOP_RATED)) {
@@ -102,9 +103,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRestoreInstanceState(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
-            super.onRestoreInstanceState(savedInstanceState);
             selection = savedInstanceState.getString(BUNDLE_SELECTION);
             setMovieData(selection);
             Parcelable savedRecyclerLayoutState = savedInstanceState.getParcelable(BUNDLE_LAYOUT);
@@ -131,12 +132,6 @@ public class MainActivity extends AppCompatActivity {
                 movies = favorites;
                 break;
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.overview, menu);
-        return true;
     }
 
     @Override
