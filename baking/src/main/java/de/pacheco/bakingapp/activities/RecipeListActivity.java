@@ -54,6 +54,7 @@ public class RecipeListActivity extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setContext();
         View root = inflater.inflate(R.layout.activity_recipe_list, container, false);
         View recyclerView = root.findViewById(R.id.recipe_list);
         assert recyclerView != null;
@@ -65,7 +66,6 @@ public class RecipeListActivity extends Fragment {
                         ".com/icon\">Icon Fonts</a> is licensed by CC BY 3.0</div>",
                 Toast.LENGTH_LONG).show();
         receiver = new BakingTimeWidget();
-        context = getActivity();
         if (context != null) {
             context.registerReceiver(receiver, new IntentFilter("my.action.string"));
         }
@@ -74,14 +74,22 @@ public class RecipeListActivity extends Fragment {
 
     @Override
     public void onDestroy() {
-        if (context != null) {
-            context.unregisterReceiver(receiver);
+        if (setContext()) {
+            return;
         }
+        context.unregisterReceiver(receiver);
         super.onDestroy();
     }
-Irgendwo hier so es werden keine Rezepte angezeigt
-    private void setupViewModel() {
+
+    private boolean setContext() {
         if (context == null) {
+            context = getActivity();
+        }
+        return false;
+    }
+
+    private void setupViewModel() {
+        if (setContext()) {
             return;
         }
         RecipesViewModel recipesViewModel = new ViewModelProvider(
