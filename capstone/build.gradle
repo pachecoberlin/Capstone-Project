@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 30
@@ -20,6 +21,7 @@ android {
             preDexLibraries = true
         }
         resConfigs("en", "mdpi")
+        multiDexEnabled true
 //      resConfigs("en", "xxhdpi")
         //remove until here
     }
