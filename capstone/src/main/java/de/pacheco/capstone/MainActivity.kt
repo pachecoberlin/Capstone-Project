@@ -37,10 +37,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun heartButton() = { view: View? ->
-        val snack = Snackbar.make(view!!, "Thank's I love it  \uD83D\uDE09 ", Snackbar
+        val snack = Snackbar.make(view!!, R.string.giveThanks, Snackbar
                 .LENGTH_LONG)
         snack.setAction(R.string.donate_with_paypal) {
-            val url = "https://www.paypal.me/pachecoberlin"
+            val url = getString(R.string.paypalmeURL)
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(url)
             startActivity(intent)

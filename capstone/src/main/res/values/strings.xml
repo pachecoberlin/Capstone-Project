@@ -20,4 +20,7 @@
         <font size="12"><a href="https://github.com/pachecoberlin/Capstone-Project">https
             ://github.com/pachecoberlin/Capstone-Project</a></font></string>
     <string name="donate_with_paypal">Donate via PayPal</string>
+    <string name="paypalmeURL">https://www.paypal.me/pachecoberlin</string>
+    <string name="smiley">😉</string>
+    <string name="giveThanks">Thank\'s! ❤</string>
 </resources>
