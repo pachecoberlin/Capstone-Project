@@ -33,7 +33,7 @@ public class MoviesFragment extends Fragment {
     private List<Movie> favorites;
     private List<Movie> populars;
     private List<Movie> topRated;
-    private String selection = MoviesUtil.FAVOURITES;
+    private String selection = MoviesUtil.POPULAR;
     private GridLayoutManager layoutManager;
     private String oldSelection;
 
@@ -73,21 +73,21 @@ public class MoviesFragment extends Fragment {
                 list -> {
                     favorites = list;
                     if (selection.equals(MoviesUtil.FAVOURITES)) {
-                        moviePosterAdapter.notifyDataSetChanged();
+                        setMovieData(MoviesUtil.FAVOURITES);
                     }
                 });
         moviesViewModel.getPopularMovies().observe(getActivity(),
                 list -> {
                     populars = list;
                     if (selection.equals(MoviesUtil.POPULAR)) {
-                        moviePosterAdapter.notifyDataSetChanged();
+                        setMovieData(MoviesUtil.POPULAR);
                     }
                 });
         moviesViewModel.getTopRatedMovies().observe(getActivity(),
                 list -> {
                     topRated = list;
                     if (selection.equals(MoviesUtil.TOP_RATED)) {
-                        moviePosterAdapter.notifyDataSetChanged();
+                        setMovieData(MoviesUtil.TOP_RATED);
                     }
                 });
     }
@@ -138,11 +138,11 @@ public class MoviesFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i == 0) {
-                    selection = MoviesUtil.FAVOURITES;
-                } else if (i == 1) {
                     selection = MoviesUtil.POPULAR;
-                } else {
+                } else if (i == 1) {
                     selection = MoviesUtil.TOP_RATED;
+                } else {
+                    selection = MoviesUtil.FAVOURITES;
                 }
                 if (oldSelection != null && !oldSelection.equals(selection)) {
                     layoutManager.scrollToPositionWithOffset(0, 0);

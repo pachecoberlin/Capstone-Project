@@ -19,8 +19,8 @@
     <string name="details">Movie Details</string>
     <string name="play_button">play button</string>
     <string-array name="sortByCategories">
+        <item>Most Popular</item>
+        <item>Highest Rated</item>
         <item>Favorites</item>
-        <item>most popular</item>
-        <item>highest rated</item>
     </string-array>
 </resources>
