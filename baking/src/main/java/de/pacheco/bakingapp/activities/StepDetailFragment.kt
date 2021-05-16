@@ -165,7 +165,8 @@ class StepDetailFragment
         if (step == null) {
             return
         }
-        urlString = if (step!!.videoURL == null || step!!.videoURL.isEmpty()) step!!.thumbnailURL else step!!.videoURL
+        urlString = if (step!!.videoURL == null || step!!.videoURL!!.isEmpty()) step!!
+                .thumbnailURL else step!!.videoURL
         if (urlString == null || urlString!!.isEmpty()) {
             switchToOnlyText(playerView, textView, imageView)
             return

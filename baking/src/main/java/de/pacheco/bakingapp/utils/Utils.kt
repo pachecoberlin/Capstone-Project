@@ -71,7 +71,7 @@ fun getPreviousRecipe(recipe: Recipe): Recipe {
     val previousIndex = recipes.indexOf(recipe) - 1
     return when {
         recipes.isEmpty() -> recipe
-        previousIndex < 0 -> recipes[recipes.size - 1]
-        else -> recipes[0]
+        previousIndex >= 0 -> recipes[previousIndex]
+        else -> recipes[recipes.size - 1]
     }
 }

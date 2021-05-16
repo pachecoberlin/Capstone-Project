@@ -92,7 +92,7 @@ class RecipeListFragment : Fragment() {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val recipe = mValues!![position]
-            val url = if (recipe.image.isEmpty()) "empty" else recipe.image
+            val url = if (recipe.image?.isEmpty() == true) "empty" else recipe.image
             Picasso.get().load(url).placeholder(R.drawable.ic_food).error(R.drawable.ic_food).into(
                     holder.recipeImage)
             holder.recipeTitle.text = recipe.name
