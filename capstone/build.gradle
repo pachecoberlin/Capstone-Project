@@ -11,25 +11,27 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0.0"
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        //TODO remove
-        aaptOptions {
-            cruncherEnabled = false
-        }
-        dexOptions {
-            preDexLibraries = true
-        }
-        resConfigs("en", "mdpi")
-        multiDexEnabled true
+        //This is for buildtime optimization while developing only
+//        aaptOptions {
+//            cruncherEnabled = false
+//        }
+//        dexOptions {
+//            preDexLibraries = true
+//        }
+//        resConfigs("en", "mdpi")
 //      resConfigs("en", "xxhdpi")
         //remove until here
     }
 
     buildTypes {
         release {
+            multiDexEnabled true
             minifyEnabled true
             shrinkResources true
+            crunchPngs true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),'proguard-rules.pro'
         }
     }
