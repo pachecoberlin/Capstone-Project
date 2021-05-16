@@ -9,4 +9,6 @@
     <string name="sign_out">Sign Out</string>
     <string name="tell_a_joke">Tell a joke</string>
     <string name="button_create_joke_text">Sign in to add Jokes to the Database</string>
+    <string name="wait_for_it">Wait for it!</string>
+    <string name="joke_text">%s\n\n%s</string>
 </resources>
