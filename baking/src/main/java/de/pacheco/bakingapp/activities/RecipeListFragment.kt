@@ -16,12 +16,12 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import de.pacheco.android.utilities.calculateNoOfColumns
 import de.pacheco.bakingapp.BakingTimeWidget
 import de.pacheco.bakingapp.R
 import de.pacheco.bakingapp.model.Recipe
 import de.pacheco.bakingapp.model.RecipesViewModel
 import de.pacheco.bakingapp.utils.SimpleIdlingResource
-import de.pacheco.bakingapp.utils.calculateNoOfColumns
 import de.pacheco.bakingapp.utils.getIngredients
 
 /**
@@ -92,7 +92,7 @@ class RecipeListFragment : Fragment() {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val recipe = mValues!![position]
-            val url = if (recipe.image?.isEmpty() == true) "empty" else recipe.image
+            val url = if (recipe.image.isEmpty()) "empty" else recipe.image
             Picasso.get().load(url).placeholder(R.drawable.ic_food).error(R.drawable.ic_food).into(
                     holder.recipeImage)
             holder.recipeTitle.text = recipe.name

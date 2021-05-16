@@ -8,7 +8,6 @@ import de.pacheco.popularMovies.util.MoviesUtil;
 
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Collections;
 import java.util.List;
+
+import static de.pacheco.android.utilities.UtilsKt.calculateNoOfColumns;
 
 public class MoviesFragment extends Fragment {
     public static final String BUNDLE_SELECTION = "Selection";
@@ -43,7 +44,7 @@ public class MoviesFragment extends Fragment {
         ActivityMainBinding binding = ActivityMainBinding.inflate(inflater);
         binding.spinnerSortBy.setOnItemSelectedListener(getSpinnerListener());
         binding.rvMovieOverview.setHasFixedSize(true);
-        layoutManager = new GridLayoutManager(getContext(), calculateNoOfColumns(),
+        layoutManager = new GridLayoutManager(getContext(), calculateNoOfColumns(getContext()),
                 RecyclerView.VERTICAL, false);
         binding.rvMovieOverview.setLayoutManager(layoutManager);
         moviePosterAdapter = new MoviePosterAdapter(getActivity());
@@ -51,16 +52,6 @@ public class MoviesFragment extends Fragment {
         setupViewModel();
         //data is set within spinner listener, which is called after created
         return binding.getRoot();
-    }
-
-    public int calculateNoOfColumns() {
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        int scalingFactor = 200;
-        int noOfColumns = (int) (dpWidth / scalingFactor);
-        if (noOfColumns < 2)
-            noOfColumns = 2;
-        return noOfColumns;
     }
 
     /**

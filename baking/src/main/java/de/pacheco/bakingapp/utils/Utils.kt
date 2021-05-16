@@ -1,20 +1,8 @@
 package de.pacheco.bakingapp.utils
 
-import android.content.Context
 import de.pacheco.bakingapp.activities.RecipeListFragment
 import de.pacheco.bakingapp.model.Recipe
 import de.pacheco.bakingapp.model.Step
-
-fun calculateNoOfColumns(context: Context?): Int {
-    if (context == null) {
-        return 2
-    }
-    val displayMetrics = context.resources.displayMetrics
-    val dpWidth = displayMetrics.widthPixels / displayMetrics.density
-    val scalingFactor = 200
-    val noOfColumns = (dpWidth / scalingFactor).toInt()
-    return if (noOfColumns < 2) 2 else noOfColumns
-}
 
 fun getStep(steps: List<Step>, stepId: Int): Step? {
     return steps.find { it.id == stepId }
