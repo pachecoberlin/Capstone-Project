@@ -14,7 +14,6 @@ import androidx.core.app.NavUtils
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import de.pacheco.bakingapp.R
-import de.pacheco.bakingapp.activities.RecipeListFragment
 import de.pacheco.bakingapp.model.Recipe
 import de.pacheco.bakingapp.model.Step
 import de.pacheco.bakingapp.utils.getIngredients
@@ -54,7 +53,7 @@ class StepListActivity : AppCompatActivity() {
         }
         setNavigationButtonListeners(recipe)
         val stepId = intent.getIntExtra(StepDetailFragment.STEPS_ID, 0)
-        val scrollPosition = Math.min(stepId, recipe.steps.size - 1)
+        val scrollPosition = stepId.coerceAtMost(recipe.steps.size - 1)
         layoutManager!!.scrollToPosition(scrollPosition)
         title = recipe.name
         setupRecyclerView(recyclerView, recipe)
