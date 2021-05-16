@@ -113,7 +113,7 @@ public class MoviesFragment extends Fragment {
 
     private void setMovieData(String selection) {
         if (selection == null) {
-            selection = MoviesUtil.FAVOURITES;
+            selection = MoviesUtil.POPULAR;
         }
         switch (selection) {
             case MoviesUtil.POPULAR:
