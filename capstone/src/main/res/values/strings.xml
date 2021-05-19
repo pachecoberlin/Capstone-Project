@@ -23,4 +23,5 @@
     <string name="paypalmeURL">https://www.paypal.me/pachecoberlin</string>
     <string name="smiley">😉</string>
     <string name="giveThanks">Thank\'s! ❤</string>
+    <string name="wave_recorder">Wave Recorder</string>
 </resources>

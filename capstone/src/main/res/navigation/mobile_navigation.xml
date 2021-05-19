@@ -35,4 +35,10 @@
         android:label="@string/menu_sandwich"
         tools:layout="@layout/fragment_sandwich" />
 
+    <fragment
+        android:id="@+id/nav_recorder"
+        android:name="de.pacheco.recorder.ui.RecorderFragment"
+        android:label="@string/wave_recorder"
+        tools:layout="@layout/recorder_fragment" />
+
 </navigation>
