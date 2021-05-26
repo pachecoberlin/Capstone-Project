@@ -2,7 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
@@ -24,5 +23,9 @@
             android:id="@+id/nav_sandwich"
             android:icon="@drawable/ic_food"
             android:title="@string/menu_sandwich" />
+        <item
+            android:id="@+id/nav_recorder"
+            android:icon="@android:drawable/ic_btn_speak_now"
+            android:title="@string/wave_recorder" />
     </group>
 </menu>
